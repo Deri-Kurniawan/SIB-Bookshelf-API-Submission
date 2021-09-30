@@ -1,0 +1,16 @@
+{
+  "name": "bookshelf-api",
+  "version": "1.0.0",
+  "description": "Submission Dicoding",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "author": "Deri Kurniawan",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^20.2.0",
+    "nanoid": "^3.1.28",
+    "nodemon": "^1.9.0"
+  }
+}
