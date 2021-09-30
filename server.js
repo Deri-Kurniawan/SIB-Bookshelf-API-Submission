@@ -1,5 +1,8 @@
 const Hapi = require('@hapi/hapi');
 const {
+    mkdir
+} = require('fs');
+const {
     nanoid
 } = require('nanoid');
 const books = [];
@@ -219,7 +222,53 @@ const init = async () => {
                     "status": "success",
                     "message": "Buku berhasil diperbarui"
                 }).type('application/json').code(200);
+            }
+        }, //end
+        {
+            method: 'DELETE',
+            path: '/books/{bookId}',
+            handler: (request, h) => {
+                books.push({
+                    "id": "aWZBUW3JN_VBE-9I",
+                    "name": "Buku A Revisi",
+                    "year": 2011,
+                    "author": "Jane Doe",
+                    "summary": "Lorem Dolor sit Amet",
+                    "publisher": "Dicoding",
+                    "pageCount": 200,
+                    "readPage": 26,
+                    "finished": false,
+                    "reading": false,
+                    "insertedAt": "2021-03-05T06:14:28.930Z",
+                    "updatedAt": "2021-03-05T06:14:30.718Z"
+                });
 
+                const {
+                    bookId
+                } = request.params;
+
+                const book = books.find((book) => {
+                    return (book.id === bookId);
+                });
+
+                if (!book) {
+                    return h.response({
+                        "status": "fail",
+                        "message": "Buku gagal dihapus. Id tidak ditemukan"
+                    }).type('application/json').code(404);
+                } else {
+                    const index = books.findIndex((book) => book.id === bookId);
+
+                    if (index !== -1) {
+                        books.splice(index, 1);
+
+                        return h.response({
+                            "status": "success",
+                            "message": "Buku berhasil dihapus"
+                        }).type('application/json').code(200);
+                    }
+
+                }
             }
         }
     ]);
