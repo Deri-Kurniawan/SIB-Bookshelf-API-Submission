@@ -124,9 +124,6 @@ const init = async () => {
                     return (book.id === bookId);
                 });
 
-                console.log(book);
-                console.log(books);
-
                 if (book) {
                     return h.response({
                         "status": "success",
@@ -140,9 +137,91 @@ const init = async () => {
                         "message": "Buku tidak ditemukan"
                     }).type('application/json').code(404);
                 }
+            }
+        }, //end
+        {
+            method: 'PUT',
+            path: '/books/{bookId}',
+            handler: (request, h) => {
+                books.push({
+                    "id": "aWZBUW3JN_VBE-9I",
+                    "name": "Buku A Revisi",
+                    "year": 2011,
+                    "author": "Jane Doe",
+                    "summary": "Lorem Dolor sit Amet",
+                    "publisher": "Dicoding",
+                    "pageCount": 200,
+                    "readPage": 26,
+                    "finished": false,
+                    "reading": false,
+                    "insertedAt": "2021-03-05T06:14:28.930Z",
+                    "updatedAt": "2021-03-05T06:14:30.718Z"
+                });
+
+                const {
+                    bookId
+                } = request.params;
+
+                const {
+                    name = null,
+                        year = null,
+                        author = null,
+                        summary = null,
+                        publisher = null,
+                        pageCount = null,
+                        readPage = null,
+                        reading = null,
+                        insertedAt = null,
+                } = request.payload;
+
+                const book = books.find((book) => {
+                    return (book.id === bookId);
+                });
+
+                if (name == null) {
+                    return h.response({
+                        "status": "fail",
+                        "message": "Gagal memperbarui buku. Mohon isi nama buku"
+                    }).type('application/json').code(400);
+                } else if (readPage > pageCount) {
+                    return h.response({
+                        "status": "fail",
+                        "message": "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount"
+                    }).type('application/json').code(400);
+                } else if (!book) {
+                    return h.response({
+                        "status": "fail",
+                        "message": "Gagal memperbarui buku. Id tidak ditemukan"
+                    }).type('application/json').code(404);
+                }
+
+                const index = books.findIndex((book) => book.id === bookId);
+
+                if (index !== -1) {
+                    books[index] = {
+                        ...books[index],
+                        id: bookId,
+                        name,
+                        year,
+                        author,
+                        summary,
+                        publisher,
+                        pageCount,
+                        readPage,
+                        finished: (readPage === pageCount) ? true : false,
+                        reading,
+                        insertedAt,
+                        updatedAt: new Date().toISOString(),
+                    }
+                }
+
+                return h.response({
+                    "status": "success",
+                    "message": "Buku berhasil diperbarui"
+                }).type('application/json').code(200);
 
             }
-        },
+        }
     ]);
 
     console.log('Server running on %s', server.info.uri);
