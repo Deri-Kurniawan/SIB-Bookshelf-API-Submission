@@ -1,20 +1,9 @@
 const Hapi = require('@hapi/hapi');
-const fs = require('fs');
 const {
     nanoid
 } = require('nanoid');
 
-const saveBooks = (data) => {
-    fs.writeFileSync('books.json', JSON.stringify(data));
-}
-
-const readBooks = () => {
-    return JSON.parse(fs.readFileSync(__dirname + '/books.json', {
-        encoding: 'utf-8'
-    }));
-}
-
-const books = readBooks();
+const books = [];
 
 const init = async () => {
 
