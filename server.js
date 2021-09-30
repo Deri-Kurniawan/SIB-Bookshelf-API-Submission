@@ -81,7 +81,7 @@ const init = async () => {
                     }
                 }
             }
-        }, //end
+        },
         {
             method: 'GET',
             path: '/books',
@@ -127,7 +127,7 @@ const init = async () => {
                     }).type('application/json').code(404);
                 }
             }
-        }, //end
+        },
         {
             method: 'PUT',
             path: '/books/{bookId}',
@@ -195,7 +195,7 @@ const init = async () => {
                     "message": "Buku berhasil diperbarui"
                 }).type('application/json').code(200);
             }
-        }, //end
+        },
         {
             method: 'DELETE',
             path: '/books/{bookId}',
