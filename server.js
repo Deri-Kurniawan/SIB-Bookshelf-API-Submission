@@ -88,7 +88,7 @@ const init = async () => {
             method: 'GET',
             path: '/books',
             handler: (request, h) => {
-                book = [{
+                const book = [{
                     "id": "Qbax5Oy7L8WKf74l",
                     "name": "Buku A",
                     "publisher": "Dicoding Indonesia"
