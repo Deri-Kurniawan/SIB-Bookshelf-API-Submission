@@ -88,14 +88,16 @@ const init = async () => {
             method: 'GET',
             path: '/books',
             handler: (request, h) => {
+                book = [{
+                    "id": "Qbax5Oy7L8WKf74l",
+                    "name": "Buku A",
+                    "publisher": "Dicoding Indonesia"
+                }];
+
                 return h.response({
                     "status": "success",
                     "data": {
-                        "books": [{
-                            "id": "Qbax5Oy7L8WKf74l",
-                            "name": "Buku A",
-                            "publisher": "Dicoding Indonesia"
-                        }]
+                        "books": book,
                     }
                 }).type('application/json').code(200);
             }
