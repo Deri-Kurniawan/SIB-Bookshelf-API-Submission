@@ -1,11 +1,20 @@
 const Hapi = require('@hapi/hapi');
-const {
-    mkdir
-} = require('fs');
+const fs = require('fs');
 const {
     nanoid
 } = require('nanoid');
-const books = [];
+
+const saveBooks = (data) => {
+    fs.writeFileSync('books.json', JSON.stringify(data));
+}
+
+const readBooks = () => {
+    return JSON.parse(fs.readFileSync(__dirname + '/books.json', {
+        encoding: 'utf-8'
+    }));
+}
+
+const books = readBooks();
 
 const init = async () => {
 
@@ -106,20 +115,6 @@ const init = async () => {
             method: 'GET',
             path: '/books/{bookId}',
             handler: (request, h) => {
-                books.push({
-                    "id": "aWZBUW3JN_VBE-9I",
-                    "name": "Buku A Revisi",
-                    "year": 2011,
-                    "author": "Jane Doe",
-                    "summary": "Lorem Dolor sit Amet",
-                    "publisher": "Dicoding",
-                    "pageCount": 200,
-                    "readPage": 26,
-                    "finished": false,
-                    "reading": false,
-                    "insertedAt": "2021-03-05T06:14:28.930Z",
-                    "updatedAt": "2021-03-05T06:14:30.718Z"
-                });
 
                 const {
                     bookId
@@ -148,20 +143,6 @@ const init = async () => {
             method: 'PUT',
             path: '/books/{bookId}',
             handler: (request, h) => {
-                books.push({
-                    "id": "aWZBUW3JN_VBE-9I",
-                    "name": "Buku A Revisi",
-                    "year": 2011,
-                    "author": "Jane Doe",
-                    "summary": "Lorem Dolor sit Amet",
-                    "publisher": "Dicoding",
-                    "pageCount": 200,
-                    "readPage": 26,
-                    "finished": false,
-                    "reading": false,
-                    "insertedAt": "2021-03-05T06:14:28.930Z",
-                    "updatedAt": "2021-03-05T06:14:30.718Z"
-                });
 
                 const {
                     bookId
@@ -230,20 +211,6 @@ const init = async () => {
             method: 'DELETE',
             path: '/books/{bookId}',
             handler: (request, h) => {
-                books.push({
-                    "id": "aWZBUW3JN_VBE-9I",
-                    "name": "Buku A Revisi",
-                    "year": 2011,
-                    "author": "Jane Doe",
-                    "summary": "Lorem Dolor sit Amet",
-                    "publisher": "Dicoding",
-                    "pageCount": 200,
-                    "readPage": 26,
-                    "finished": false,
-                    "reading": false,
-                    "insertedAt": "2021-03-05T06:14:28.930Z",
-                    "updatedAt": "2021-03-05T06:14:30.718Z"
-                });
 
                 const {
                     bookId
