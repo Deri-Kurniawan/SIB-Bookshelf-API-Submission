@@ -86,17 +86,6 @@ const init = async () => {
             method: 'GET',
             path: '/books',
             handler: (request, h) => {
-                // const book = [{
-                //     "id": "Qbax5Oy7L8WKf74l",
-                //     "name": "Buku A",
-                //     "publisher": "Dicoding Indonesia"
-                // }, ];
-
-                const {
-                    reading = null,
-                        finished = null,
-                        name = null,
-                } = request.query;
 
                 const book = books.map(({
                     id,
@@ -108,35 +97,12 @@ const init = async () => {
                     publisher,
                 }));
 
-                if (reading === null && finished === null && name === null) {
-                    return h.response({
-                        "status": "success",
-                        "data": {
-                            "books": book,
-                        }
-                    }).type('application/json').code(200);
-                } else {
-                    let temp = books;
-
-                    books.filter((book) => {
-                        if (books.reading == 0) {
-                            temp.push(book);
-                        } else if (books.reading == 1) {
-                            temp.push(book);
-                        } else if (books.finished == 0) {
-                            temp.push(book);
-                        } else if (books.finished == 1) {
-                            temp.push(book);
-                        }
-                    });
-
-                    return h.response({
-                        "status": "success",
-                        "data": {
-                            "books": temp,
-                        }
-                    }).type('application/json').code(200);
-                }
+                return h.response({
+                    "status": "success",
+                    "data": {
+                        "books": book,
+                    }
+                }).type('application/json').code(200);
 
             }
         },
