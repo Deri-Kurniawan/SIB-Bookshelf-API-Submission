@@ -1,5 +1,5 @@
 /**
- * Error Response for Handler
+ * Error Response for Hapi Handler
  * @param {*} h Hapi
  * @param {Number} statusCode Header status code 4xx
  * @param {String} message Error message
@@ -15,7 +15,7 @@ const errorResponse = (h, statusCode, message, type = 'application/json', charse
 }
 
 /**
- * Success Response for Handler
+ * Success Response for Hapi Handler
  * @param {*} h Hapi
  * @param {Number} statusCode Header status code 2xx
  * @param {Object} objectData Data body
