@@ -71,14 +71,14 @@ const getAllBook = (request, h) => {
             name = null,
     } = request.query;
 
-    let allBooks = [];
+    let allBook = [];
 
     if (reading === null && finished === null && name === null) {
-        allBooks = books;
+        allBook = books;
         return successResponse(h, 200, {
             "status": "success",
             "data": {
-                "books": allBooks.map(({
+                "books": allBook.map(({
                     id,
                     name,
                     publisher,
@@ -90,17 +90,17 @@ const getAllBook = (request, h) => {
             }
         });
     } else if (reading !== null) {
-        allBooks = books.filter((book) => Number(reading) === Number(book.reading));
+        allBook = books.filter((book) => Number(reading) === Number(book.reading));
     } else if (finished !== null) {
-        allBooks = books.filter((book) => Number(finished) === Number(book.finished));
+        allBook = books.filter((book) => Number(finished) === Number(book.finished));
     } else if (name !== null) {
-        allBooks = books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
+        allBook = books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
     }
 
     return successResponse(h, 200, {
         "status": "success",
         "data": {
-            "books": allBooks.map(({
+            "books": allBook.map(({
                 id,
                 name,
                 publisher,
