@@ -47,9 +47,7 @@ const init = async () => {
                     reading,
                     insertedAt,
                     updatedAt
-                }
-
-                console.log(newBook);
+                };
 
                 if (name === null || name.length <= 0) {
                     return h.response({
@@ -89,20 +87,50 @@ const init = async () => {
             path: '/books',
             handler: (request, h) => {
 
-                const book = books.map(({
-                    id,
-                    name,
-                    publisher,
-                }) => ({
-                    id,
-                    name,
-                    publisher,
-                }));
+                const {
+                    reading = null,
+                        finished = null,
+                        name = null,
+                } = request.query;
+
+                let allBooks = [];
+
+                if (reading === null && finished === null && name === null) {
+                    allBooks = books;
+                    return h.response({
+                        "status": "success",
+                        "data": {
+                            "books": allBooks.map(({
+                                id,
+                                name,
+                                publisher,
+                            }) => ({
+                                id,
+                                name,
+                                publisher,
+                            })),
+                        }
+                    }).code(200).type('application/json').charset('utf-8');
+                } else if (reading !== null) {
+                    allBooks = books.filter((book) => Number(reading) === Number(book.reading));
+                } else if (finished !== null) {
+                    allBooks = books.filter((book) => Number(finished) === Number(book.finished));
+                } else if (name !== null) {
+                    allBooks = books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
+                }
 
                 return h.response({
                     "status": "success",
                     "data": {
-                        "books": book,
+                        "books": allBooks.map(({
+                            id,
+                            name,
+                            publisher,
+                        }) => ({
+                            id,
+                            name,
+                            publisher,
+                        })),
                     }
                 }).code(200).type('application/json').charset('utf-8');
 
