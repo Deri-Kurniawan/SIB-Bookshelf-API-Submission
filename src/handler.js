@@ -1,19 +1,11 @@
 const {
     nanoid
 } = require('nanoid');
-
 const books = require('./books');
-
-const errorResponse = (h, statusCode, message, type = 'application/json', charset = 'utf-8') => {
-    return h.response({
-        "status": "fail",
-        "message": String(message)
-    }).code(statusCode).type(type).charset(charset);
-}
-
-const successResponse = (h, statusCode, objectData, type = 'application/json', charset = 'utf-8') => {
-    return h.response(objectData).code(statusCode).type(type).charset(charset);
-}
+const {
+    errorResponse,
+    successResponse
+} = require('./helper');
 
 const addBook = (request, h) => {
     const bookId = nanoid(16);
