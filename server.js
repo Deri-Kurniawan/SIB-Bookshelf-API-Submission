@@ -47,9 +47,7 @@ const init = async () => {
                     reading,
                     insertedAt,
                     updatedAt
-                }
-
-                console.log(newBook);
+                };
 
                 if (name === null || name.length <= 0) {
                     return h.response({
