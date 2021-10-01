@@ -4,11 +4,15 @@ const {
 
 const books = require('./books');
 
-const errorResponse = (h, errorCode, errorMessage, type = 'application/json', charset = 'utf-8') => {
+const errorResponse = (h, statusCode, message, type = 'application/json', charset = 'utf-8') => {
     return h.response({
         "status": "fail",
-        "message": String(errorMessage)
-    }).code(errorCode).type(type).charset(charset);
+        "message": String(message)
+    }).code(statusCode).type(type).charset(charset);
+}
+
+const successResponse = (h, statusCode, objectData, type = 'application/json', charset = 'utf-8') => {
+    return h.response(objectData).code(statusCode).type(type).charset(charset);
 }
 
 const addBook = (request, h) => {
@@ -54,13 +58,13 @@ const addBook = (request, h) => {
         const isSuccess = books.filter((book) => book.id === bookId).length > 0;
 
         if (isSuccess) {
-            return h.response({
+            return successResponse(h, 201, {
                 status: "success",
                 message: "Buku berhasil ditambahkan",
                 data: {
                     bookId
                 }
-            }).code(201).type('application/json').charset('utf-8');
+            });
         } else {
             return errorResponse(h, 500, "Buku gagal ditambahkan");
         }
@@ -79,7 +83,7 @@ const getAllBook = (request, h) => {
 
     if (reading === null && finished === null && name === null) {
         allBooks = books;
-        return h.response({
+        return successResponse(h, 200, {
             "status": "success",
             "data": {
                 "books": allBooks.map(({
@@ -92,7 +96,7 @@ const getAllBook = (request, h) => {
                     publisher,
                 })),
             }
-        }).code(200).type('application/json').charset('utf-8');
+        });
     } else if (reading !== null) {
         allBooks = books.filter((book) => Number(reading) === Number(book.reading));
     } else if (finished !== null) {
@@ -101,7 +105,7 @@ const getAllBook = (request, h) => {
         allBooks = books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
     }
 
-    return h.response({
+    return successResponse(h, 200, {
         "status": "success",
         "data": {
             "books": allBooks.map(({
@@ -114,8 +118,7 @@ const getAllBook = (request, h) => {
                 publisher,
             })),
         }
-    }).code(200).type('application/json').charset('utf-8');
-
+    });
 };
 
 const getBookDetailById = (request, h) => {
@@ -129,12 +132,12 @@ const getBookDetailById = (request, h) => {
     });
 
     if (book) {
-        return h.response({
+        return successResponse(h, 200, {
             "status": "success",
             "data": {
                 "book": book,
             }
-        }).code(200).type('application/json').charset('utf-8');
+        });
     } else {
         return errorResponse(h, 404, "Buku tidak ditemukan");
     }
@@ -190,10 +193,10 @@ const updateBookById = (request, h) => {
         }
     }
 
-    return h.response({
+    return successResponse(h, 200, {
         "status": "success",
         "message": "Buku berhasil diperbarui"
-    }).code(200).type('application/json').charset('utf-8');
+    });
 };
 
 const deleteBookById = (request, h) => {
@@ -214,10 +217,10 @@ const deleteBookById = (request, h) => {
         if (index !== -1) {
             books.splice(index, 1);
 
-            return h.response({
+            return successResponse(h, 200, {
                 "status": "success",
                 "message": "Buku berhasil dihapus"
-            }).code(200).type('application/json').charset('utf-8');
+            });
         }
 
     }
