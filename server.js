@@ -116,7 +116,7 @@ const init = async () => {
                 } else if (finished !== null) {
                     allBooks = books.filter((book) => Number(finished) === Number(book.finished));
                 } else if (name !== null) {
-                    allBooks = books.filter((book) => name === book.name);
+                    allBooks = books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
                 }
 
                 return h.response({
