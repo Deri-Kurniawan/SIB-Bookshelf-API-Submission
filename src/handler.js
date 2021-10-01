@@ -167,21 +167,19 @@ const updateBookById = (request, h) => {
         return (book.id === bookId);
     });
 
+    const errorResponse = (h, errorCode, errorMessage) => {
+        return h.response({
+            "status": "fail",
+            "message": String(errorMessage)
+        }).code(errorCode).type('application/json').charset('utf-8');
+    }
+
     if (name == null) {
-        return h.response({
-            "status": "fail",
-            "message": "Gagal memperbarui buku. Mohon isi nama buku"
-        }).code(400).type('application/json').charset('utf-8');
+        return errorResponse(h, 400, "Gagal memperbarui buku. Mohon isi nama buku");
     } else if (readPage > pageCount) {
-        return h.response({
-            "status": "fail",
-            "message": "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount"
-        }).code(400).type('application/json').charset('utf-8');
+        return errorResponse(h, 400, "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount");
     } else if (!book) {
-        return h.response({
-            "status": "fail",
-            "message": "Gagal memperbarui buku. Id tidak ditemukan"
-        }).code(404).type('application/json').charset('utf-8');
+        return errorResponse(h, 404, "Gagal memperbarui buku. Id tidak ditemukan");
     }
 
     const index = books.findIndex((book) => book.id === bookId);
