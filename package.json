@@ -2,7 +2,7 @@
   "name": "bookshelf-api",
   "version": "1.0.0",
   "description": "Submission Dicoding",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "start": "nodemon ."
   },
