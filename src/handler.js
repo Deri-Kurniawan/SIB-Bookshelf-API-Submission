@@ -4,6 +4,13 @@ const {
 
 const books = require('./books');
 
+const errorResponse = (h, errorCode, errorMessage, type = 'application/json', charset = 'utf-8') => {
+    return h.response({
+        "status": "fail",
+        "message": String(errorMessage)
+    }).code(errorCode).type(type).charset(charset);
+}
+
 const addBook = (request, h) => {
     const bookId = nanoid(16);
 
@@ -37,15 +44,9 @@ const addBook = (request, h) => {
     };
 
     if (name === null || name.length <= 0) {
-        return h.response({
-            status: "fail",
-            message: "Gagal menambahkan buku. Mohon isi nama buku"
-        }).code(400).type('application/json').charset('utf-8');
+        return errorResponse(h, 400, "Gagal menambahkan buku. Mohon isi nama buku");
     } else if (readPage > pageCount) {
-        return h.response({
-            status: "fail",
-            message: "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount"
-        }).code(400).type('application/json').charset('utf-8');
+        return errorResponse(h, 400, "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount");
     } else {
 
         books.push(newBook);
@@ -61,10 +62,7 @@ const addBook = (request, h) => {
                 }
             }).code(201).type('application/json').charset('utf-8');
         } else {
-            return h.response({
-                status: "error",
-                message: "Buku gagal ditambahkan"
-            }).code(500).type('application/json').charset('utf-8');
+            return errorResponse(h, 500, "Buku gagal ditambahkan");
         }
     }
 };
@@ -138,10 +136,7 @@ const getBookDetailById = (request, h) => {
             }
         }).code(200).type('application/json').charset('utf-8');
     } else {
-        return h.response({
-            "status": "fail",
-            "message": "Buku tidak ditemukan"
-        }).code(404).type('application/json').charset('utf-8');
+        return errorResponse(h, 404, "Buku tidak ditemukan");
     }
 };
 
@@ -166,13 +161,6 @@ const updateBookById = (request, h) => {
     const book = books.find((book) => {
         return (book.id === bookId);
     });
-
-    const errorResponse = (h, errorCode, errorMessage) => {
-        return h.response({
-            "status": "fail",
-            "message": String(errorMessage)
-        }).code(errorCode).type('application/json').charset('utf-8');
-    }
 
     if (name == null) {
         return errorResponse(h, 400, "Gagal memperbarui buku. Mohon isi nama buku");
@@ -219,10 +207,7 @@ const deleteBookById = (request, h) => {
     });
 
     if (!book) {
-        return h.response({
-            "status": "fail",
-            "message": "Buku gagal dihapus. Id tidak ditemukan"
-        }).code(404).type('application/json').charset('utf-8');
+        return errorResponse(h, 404, "Buku gagal dihapus. Id tidak ditemukan");
     } else {
         const index = books.findIndex((book) => book.id === bookId);
 
