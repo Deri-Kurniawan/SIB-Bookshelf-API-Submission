@@ -1,10 +1,11 @@
 {
-  "name": "bookshelf-api",
+  "name": "bookshelf-API-back-end",
   "version": "1.0.0",
   "description": "Submission Dicoding",
   "main": "src/server.js",
   "scripts": {
-    "start": "nodemon ."
+    "start": "node .",
+    "dev": "nodemon ."
   },
   "author": "Deri Kurniawan",
   "license": "ISC",
