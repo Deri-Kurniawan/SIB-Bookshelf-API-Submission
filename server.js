@@ -43,11 +43,13 @@ const init = async () => {
                     publisher,
                     pageCount,
                     readPage,
-                    finished: (pageCount === readPage) ? true : false,
+                    finished: (pageCount === readPage),
                     reading,
                     insertedAt,
                     updatedAt
                 }
+
+                console.log(newBook);
 
                 if (name === null || name.length <= 0) {
                     return h.response({
