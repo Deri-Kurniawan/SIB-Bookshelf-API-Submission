@@ -119,15 +119,15 @@ const getBookDetailById = (request, h) => {
         bookId
     } = request.params;
 
-    const book = books.find((book) => {
+    const bookIsFound = books.find((book) => {
         return (book.id === bookId);
     });
 
-    if (book) {
+    if (bookIsFound) {
         return successResponse(h, 200, {
             "status": "success",
             "data": {
-                "book": book,
+                "book": bookIsFound,
             }
         });
     } else {
@@ -153,7 +153,7 @@ const updateBookById = (request, h) => {
             insertedAt = null,
     } = request.payload;
 
-    const book = books.find((book) => {
+    const bookIsFound = books.find((book) => {
         return (book.id === bookId);
     });
 
@@ -161,7 +161,7 @@ const updateBookById = (request, h) => {
         return errorResponse(h, 400, "Gagal memperbarui buku. Mohon isi nama buku");
     } else if (readPage > pageCount) {
         return errorResponse(h, 400, "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount");
-    } else if (!book) {
+    } else if (!bookIsFound) {
         return errorResponse(h, 404, "Gagal memperbarui buku. Id tidak ditemukan");
     }
 
@@ -197,11 +197,11 @@ const deleteBookById = (request, h) => {
         bookId
     } = request.params;
 
-    const book = books.find((book) => {
+    const bookIsFound = books.find((book) => {
         return (book.id === bookId);
     });
 
-    if (!book) {
+    if (!bookIsFound) {
         return errorResponse(h, 404, "Buku gagal dihapus. Id tidak ditemukan");
     } else {
         const index = books.findIndex((book) => book.id === bookId);
