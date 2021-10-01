@@ -43,22 +43,24 @@ const init = async () => {
                     publisher,
                     pageCount,
                     readPage,
-                    finished: (pageCount === readPage) ? true : false,
+                    finished: (pageCount === readPage),
                     reading,
                     insertedAt,
                     updatedAt
                 }
 
+                console.log(newBook);
+
                 if (name === null || name.length <= 0) {
                     return h.response({
                         status: "fail",
                         message: "Gagal menambahkan buku. Mohon isi nama buku"
-                    }).type('application/json').code(400);
+                    }).code(400).type('application/json').charset('utf-8');
                 } else if (readPage > pageCount) {
                     return h.response({
                         status: "fail",
                         message: "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount"
-                    }).type('application/json').code(400);
+                    }).code(400).type('application/json').charset('utf-8');
                 } else {
 
                     books.push(newBook);
@@ -72,12 +74,12 @@ const init = async () => {
                             data: {
                                 bookId
                             }
-                        }).type('application/json').code(201);
+                        }).code(201).type('application/json').charset('utf-8');
                     } else {
                         return h.response({
                             status: "error",
                             message: "Buku gagal ditambahkan"
-                        }).code(500);
+                        }).code(500).type('application/json').charset('utf-8');
                     }
                 }
             }
@@ -86,18 +88,24 @@ const init = async () => {
             method: 'GET',
             path: '/books',
             handler: (request, h) => {
-                const book = [{
-                    "id": "Qbax5Oy7L8WKf74l",
-                    "name": "Buku A",
-                    "publisher": "Dicoding Indonesia"
-                }];
+
+                const book = books.map(({
+                    id,
+                    name,
+                    publisher,
+                }) => ({
+                    id,
+                    name,
+                    publisher,
+                }));
 
                 return h.response({
                     "status": "success",
                     "data": {
                         "books": book,
                     }
-                }).type('application/json').code(200);
+                }).code(200).type('application/json').charset('utf-8');
+
             }
         },
         {
@@ -119,12 +127,12 @@ const init = async () => {
                         "data": {
                             "book": book,
                         }
-                    }).type('application/json').code(200);
+                    }).code(200).type('application/json').charset('utf-8');
                 } else {
                     return h.response({
                         "status": "fail",
                         "message": "Buku tidak ditemukan"
-                    }).type('application/json').code(404);
+                    }).code(404).type('application/json').charset('utf-8');
                 }
             }
         },
@@ -157,17 +165,17 @@ const init = async () => {
                     return h.response({
                         "status": "fail",
                         "message": "Gagal memperbarui buku. Mohon isi nama buku"
-                    }).type('application/json').code(400);
+                    }).code(400).type('application/json').charset('utf-8');
                 } else if (readPage > pageCount) {
                     return h.response({
                         "status": "fail",
                         "message": "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount"
-                    }).type('application/json').code(400);
+                    }).code(400).type('application/json').charset('utf-8');
                 } else if (!book) {
                     return h.response({
                         "status": "fail",
                         "message": "Gagal memperbarui buku. Id tidak ditemukan"
-                    }).type('application/json').code(404);
+                    }).code(404).type('application/json').charset('utf-8');
                 }
 
                 const index = books.findIndex((book) => book.id === bookId);
@@ -193,7 +201,7 @@ const init = async () => {
                 return h.response({
                     "status": "success",
                     "message": "Buku berhasil diperbarui"
-                }).type('application/json').code(200);
+                }).code(200).type('application/json').charset('utf-8');
             }
         },
         {
@@ -213,7 +221,7 @@ const init = async () => {
                     return h.response({
                         "status": "fail",
                         "message": "Buku gagal dihapus. Id tidak ditemukan"
-                    }).type('application/json').code(404);
+                    }).code(404).type('application/json').charset('utf-8');
                 } else {
                     const index = books.findIndex((book) => book.id === bookId);
 
@@ -223,7 +231,7 @@ const init = async () => {
                         return h.response({
                             "status": "success",
                             "message": "Buku berhasil dihapus"
-                        }).type('application/json').code(200);
+                        }).code(200).type('application/json').charset('utf-8');
                     }
 
                 }
