@@ -95,17 +95,12 @@ const init = async () => {
 
                 let allBooks = [];
 
-                if (reading !== null) {
-                    allBooks = books.filter((book) => Number(reading) === Number(book.reading));
-                } else if (finished !== null) {
-                    allBooks = books.filter((book) => Number(finished) === Number(book.finished));
-                } else if (name !== null) {
-                    allBooks = books.filter((book) => String(name) === String(book.name));
-                } else if (reading === null && finished === null && name === null) {
+                if (reading === null && finished === null && name === null) {
+                    allBooks = books;
                     return h.response({
                         "status": "success",
                         "data": {
-                            "books": books.map(({
+                            "books": allBooks.map(({
                                 id,
                                 name,
                                 publisher,
@@ -116,6 +111,12 @@ const init = async () => {
                             })),
                         }
                     }).code(200).type('application/json').charset('utf-8');
+                } else if (reading !== null) {
+                    allBooks = books.filter((book) => Number(reading) === Number(book.reading));
+                } else if (finished !== null) {
+                    allBooks = books.filter((book) => Number(finished) === Number(book.finished));
+                } else if (name !== null) {
+                    allBooks = books.filter((book) => name === book.name);
                 }
 
                 return h.response({
